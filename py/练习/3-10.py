@@ -1,0 +1,13 @@
+#想想可存储到列表中的东西，如山岳、河流、国家、城市、语言或你喜欢的任何东西。编写一个程序，在其中创建一个包含这些元素的列表，然后，对于本章介绍的每个函数，都至少使用一次来处理这个列表。
+list_name=['候一簇花开','iQOO','python','通义','酷狗']
+list_app=list_name[:]
+add='谷歌'
+list_name.append(add)
+print(f'我刚刚使用方法append()添加元素在"list_name"列表后面，添加值为"{add}"\n列表原值为{list_app}\n在添加元素后为{list_name}')
+del_1='酷狗'
+list_name.remove(del_1)
+print(f'使用方法remove()删除元素{del_1}:\n{list_name}')
+#修改数据本身的方法需要提前调用，这就是为什么经常出现返回值为None错误。
+#而对于返回新值的方法，可以直接在f''内调用
+list_name.insert(0,"Google")
+print(f'使用方法insert()添加元素，{list_name}')
