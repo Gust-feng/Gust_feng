@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>陌上花开</title>
+    <link rel="stylesheet" href="./css/ink-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+    <!-- 通过CDN引入Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.3.4/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- 时间指示器 -->
+        <div class="time-indicator" ref="timeIndicator">
+            {{ currentThemeName }}
+        </div>
+        
+        <!-- 天空效果 -->
+        <div class="sky-overlay" :style="skyStyle"></div>
+        
+        <!-- 水墨山水画背景 -->
+        <div class="ink-landscape" ref="landscape">
+            <div class="ink-mountain" @mousemove="moveElement" @touchmove="touchMoveElement" :style="{ opacity: mountainOpacity }"></div>
+            <div class="ink-tree" @mousemove="moveElement" @touchmove="touchMoveElement" :style="{ opacity: treeOpacity }"></div>
+            <div class="ink-pavilion" @mousemove="moveElement" @touchmove="touchMoveElement" :style="{ opacity: pavilionOpacity }"></div>
+            <div class="ink-river" :style="{ opacity: riverOpacity }"></div>
+        </div>
+        
+        <!-- 欢迎内容 -->
+        <div class="welcome-container" ref="welcomeContainer" @click="handleContainerClick" @touchend="handleContainerClick">
+            <h3 class="welcome-text">陌上花开</h3>
+            <p class="subtitle">那年红杏&nbsp;&nbsp;满了枝头</p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

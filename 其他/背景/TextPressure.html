@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文本压力效果</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+        }
+
+        #container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #text-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            text-align: center;
+            user-select: none;
+            white-space: nowrap;
+            text-transform: uppercase;
+        }
+
+        /* 添加基于时间的渐变色 */
+        @keyframes gradient {
+            0% { color: #FFFFFF; } /* 亮白 */
+            8.33% { color: #FFFAF0; } /* 象牙白 */
+            16.66% { color: #FFF8DC; } /* 玉米色 */
+            25% { color: #FFFFE0; } /* 浅黄 */
+            33.33% { color: #FFFACD; } /* 柠檬薄纱 */
+            41.66% { color: #FAFAD2; } /* 浅金黄 */
+            50% { color: #FFEFD5; } /* 浅粉 */
+            58.33% { color: #FFF5EE; } /* 海贝白 */
+            66.66% { color: #F0FFF0; } /* 蜜瓜绿 */
+            75% { color: #F5FFFA; } /* 薄荷白 */
+            83.33% { color: #F0F8FF; } /* 爱丽丝蓝 */
+            100% { color: #FFFFFF; } /* 回到亮白 */
+        }
+
+        .char {
+            display: inline-block;
+            transition: transform 0.3s ease, color 0.3s ease;
+            font-size: 1em; /* 默认字体大小 */
+            transform: scale(1); /* 默认缩放比例 */
+            position: relative;
+            /* 提示浏览器优化这些属性的动画 */
+            will-change: transform, opacity, font-variation-settings;
+        }
+
+        .char:hover {
+            transform: scale(1.15); /* 鼠标靠近时轻微放大 */
+            color: #9370DB; /* 鼠标靠近时字体颜色变为紫丁香 */
+        }
+
+        .stroke .char {
+            position: relative;
+            color: #FFFFFF;
+        }
+
+        .stroke .char::after {
+            content: attr(data-char);
+            position: absolute;
+            left: 0;
+            top: 0;
+            color: transparent;
+            z-index: -1;
+            -webkit-text-stroke-width: 3px;
+            -webkit-text-stroke-color: #FF0000;
+        }
+
+        @font-face {
+            font-family: 'VariableFont';
+            src: url('https://res.cloudinary.com/dr6lvwubh/raw/upload/v1529908256/CompressaPRO-GX.woff2');
+            font-style: normal;
+        }
+
+        .char.wave-effect {
+            transform: scale(1.1); /* 调整放大比例，避免过度夸张 */
+            animation: gradient 24s linear infinite; /* 使用更亮的渐变动画 */
+        }
+
+        /* 新增：点击字母时的放大效果 */
+        .char.scale-up {
+            transform: scale(1.2); /* 轻微放大 */
+            transition: transform 0.2s ease-out; /* 短暂平滑的放大过渡 */
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1 id="text-wrapper" class="flex stroke"></h1>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 配置
+            const config = {
+                text: 'Hello World',
+                fontFamily: 'VariableFont',
+                width: true,
+                weight: true,
+                italic: true,
+                alpha: false,
+                flex: true,
+                stroke: true,
+                scale: false,
+                textColor: '#FFFFFF',
+                strokeColor: '#FF0000',
+                minFontSize: 36
+            };
+
+            const container = document.getElementById('container');
+            const textWrapper = document.getElementById('text-wrapper');
+            
+            // 设置字体和样式
+            textWrapper.style.fontFamily = config.fontFamily;
+            textWrapper.style.color = config.textColor;
+            
+            if (config.stroke) {
+                textWrapper.classList.add('stroke');
+            } else {
+                textWrapper.classList.remove('stroke');
+            }
+            
+            if (config.flex) {
+                textWrapper.classList.add('flex');
+            } else {
+                textWrapper.classList.remove('flex');
+            }
+
+            // 创建字符
+            const chars = config.text.split('');
+            chars.forEach(char => {
+                const span = document.createElement('span');
+                span.className = 'char';
+                span.textContent = char;
+                span.setAttribute('data-char', char);
+                textWrapper.appendChild(span);
+            });
+
+            // 鼠标和光标参考
+            const mouseRef = { x: 0, y: 0 };
+            const cursorRef = { x: 0, y: 0 };
+            
+            // 所有字符元素
+            const charElements = document.querySelectorAll('.char');
+
+            // 防抖动函数
+            function debounce(func, wait) {
+                let timeout;
+                return function executedFunction(...args) {
+                    const later = () => {
+                        clearTimeout(timeout);
+                        func(...args);
+                    };
+                    clearTimeout(timeout);
+                    timeout = setTimeout(later, wait);
+                };
+            };
+
+            // 节流函数
+            function throttle(func, limit) {
+                let lastFunc;
+                let lastRan;
+                return function(...args) {
+                    const context = this;
+                    if (!lastRan) {
+                        func.apply(context, args);
+                        lastRan = Date.now();
+                    } else {
+                        clearTimeout(lastFunc);
+                        lastFunc = setTimeout(function() {
+                            if ((Date.now() - lastRan) >= limit) {
+                                func.apply(context, args);
+                                lastRan = Date.now();
+                            }
+                        }, limit - (Date.now() - lastRan));
+                    }
+                }
+            }
+
+            // 设置大小
+            function setSize() {
+                const containerRect = container.getBoundingClientRect();
+                let newFontSize = containerRect.width / (chars.length / 2);
+                newFontSize = Math.max(newFontSize, config.minFontSize);
+                
+                textWrapper.style.fontSize = newFontSize + 'px';
+                textWrapper.style.fontWeight = 100;
+                textWrapper.style.lineHeight = 1;
+                
+                if (config.scale) {
+                    setTimeout(() => {
+                        const textRect = textWrapper.getBoundingClientRect();
+                        if (textRect.height > 0) {
+                            const yRatio = containerRect.height / textRect.height;
+                            textWrapper.style.transform = `scale(1, ${yRatio})`;
+                            textWrapper.style.transformOrigin = 'center top';
+                        }
+                    }, 0);
+                }
+            }
+
+            // 使用防抖动处理 resize 事件
+            const debouncedSetSize = debounce(setSize, 250); // 250ms 延迟
+            window.addEventListener('resize', debouncedSetSize);
+
+            // 计算距离
+            function dist(a, b) {
+                const dx = b.x - a.x;
+                const dy = b.y - a.y;
+                return Math.sqrt(dx * dx + dy * dy);
+            }
+
+            // 鼠标移动处理
+            function handleMouseMove(e) {
+                cursorRef.x = e.clientX;
+                cursorRef.y = e.clientY;
+            }
+
+            // 触摸移动处理
+            function handleTouchMove(e) {
+                const t = e.touches[0];
+                cursorRef.x = t.clientX;
+                cursorRef.y = t.clientY;
+            }
+
+            // 初始化鼠标位置
+            const containerRect = container.getBoundingClientRect();
+            mouseRef.x = containerRect.left + containerRect.width / 2;
+            mouseRef.y = containerRect.top + containerRect.height / 2;
+            cursorRef.x = mouseRef.x;
+            cursorRef.y = mouseRef.y;
+
+            // 添加事件监听器
+            window.addEventListener('mousemove', handleMouseMove);
+            window.addEventListener('touchmove', handleTouchMove, { passive: false });
+
+            // 鼠标左键按下事件监听器
+            let leftClickCooldown = false; // 鼠标左键冷却标志
+
+            document.addEventListener('mousedown', function (event) {
+                if (event.button === 0 && !leftClickCooldown) { // 检测鼠标左键并检查冷却状态
+                    leftClickCooldown = true; // 设置冷却标志
+
+                    const targetChar = event.target.closest('.char'); // 获取被点击的字母元素
+
+                    if (targetChar) { // 如果鼠标在字母上
+                        targetChar.classList.add('scale-up'); // 添加短暂放大效果
+                        setTimeout(() => {
+                            targetChar.classList.remove('scale-up');
+                        }, 200); // 放大效果持续时间
+                    } else { // 如果鼠标不在字母上
+                        // 移除外部点击时的抖动效果
+                    }
+
+                    setTimeout(() => {
+                        leftClickCooldown = false; // 解除冷却标志
+                    }, 500); // 冷却时间为0.5秒
+                }
+            });
+
+            // 动画核心逻辑
+            function updateCharacterStyles() {
+                // 平滑跟随鼠标
+                mouseRef.x += (cursorRef.x - mouseRef.x) * 0.1; // 调整平滑系数
+                mouseRef.y += (cursorRef.y - mouseRef.y) * 0.1;
+
+                const textRect = textWrapper.getBoundingClientRect();
+                const maxDist = textRect.width / 2;
+
+                charElements.forEach(span => {
+                    const rect = span.getBoundingClientRect();
+                    const charCenter = {
+                        x: rect.x + rect.width / 2,
+                        y: rect.y + rect.height / 2,
+                    };
+
+                    const d = dist(mouseRef, charCenter);
+
+                    const getAttr = (distance, minVal, maxVal) => {
+                        const val = maxVal - Math.abs((maxVal * distance) / maxDist);
+                        return Math.max(minVal, val + minVal);
+                    };
+
+                    const wdth = config.width ? Math.floor(getAttr(d, 5, 200)) : 100;
+                    const wght = config.weight ? Math.floor(getAttr(d, 100, 900)) : 400;
+                    const italVal = config.italic ? getAttr(d, 0, 1).toFixed(2) : 0;
+                    const alphaVal = config.alpha ? getAttr(d, 0, 1).toFixed(2) : 1;
+
+                    span.style.opacity = alphaVal;
+                    span.style.fontVariationSettings = `'wght' ${wght}, 'wdth' ${wdth}, 'ital' ${italVal}`;
+                });
+            }
+
+            // 创建无节流版本的更新函数
+            function animate() {
+                updateCharacterStyles(); // 直接调用更新函数
+                requestAnimationFrame(animate);
+            }
+
+            // 设置初始尺寸并开始动画
+            setSize();
+            animate();
+        });
+    </script>
+</body>
+</html>
