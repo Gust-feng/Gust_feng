@@ -4,6 +4,6 @@
 
 
 ## 学习书籍
-### ~获取书籍办法 [Olib](https://github.com/shiyi-0x7f/o-lib)~
+### ~~获取书籍办法 [Olib](https://github.com/shiyi-0x7f/o-lib)~~
 - Python编程：从入门到实践（第3版）
 - C Primer Plus（第6版）中文版
