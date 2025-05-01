@@ -9,4 +9,6 @@
 - C Primer Plus（第6版）中文版
 
 ## 定制wallpaper（html）
-[wallpaper](其他/前端/wallpaper专区/备注.md)
+一些还不错且适用wallpaper的[html壁纸](其他/前端/wallpaper专区/备注.md)
+
+如果希望自己制作一个壁纸，不妨使用vscode，Trae或cursor的AI编写。~~当然wallpaper不仅支持html文件作为壁纸，具体的可以自行了解~~
