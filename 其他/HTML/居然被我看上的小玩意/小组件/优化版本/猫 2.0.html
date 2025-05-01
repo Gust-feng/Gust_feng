@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8" />
+<title>有双眼睛盯着我的鼠标</title>
+<style>
+      *{margin:0;padding:0;box-sizing:border-box;}body{min-height:100vh;display:grid;place-items:center;background:black;}@property --eyelid{syntax:'<percentage>';inherits:false;initial-value:0%;}@property --eyelid2{syntax:'<percentage>';inherits:false;initial-value:0%;}.eyes{width:250px;padding-block:20px;display:flex;align-items:center;justify-content:center;gap:20px;div{position:relative;width:90px;aspect-ratio:1;background:white;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;&:before,&:after{content:'';position:absolute;width:116%;height:165%;left:50%;animation:eyelid 5s ease-in-out infinite;z-index:1;}&:before{top:0;border-radius:0% 0% 40% 40%;transform:translateY(var(--eyelid)) translateX(-50%);border-bottom:40px solid black;}&:after{bottom:0;border-radius:40% 40% 0% 0%;transform:translateY(var(--eyelid2)) translateX(-50%);border-top:40px solid black;}i{position:absolute;width:60px;aspect-ratio:inherit;background:black;border-radius:inherit;}}}@keyframes eyelid{0%{--eyelid:-50%;--eyelid2:50%;}3%{--eyelid:0%;--eyelid2:0%;}6%{--eyelid:-50%;--eyelid2:50%;}9%,100%{--eyelid:0%;--eyelid2:0%;}}</style>
+</head>
+<body>
+<div class="eyes"><div><i></i></div><div><i></i></div></div>
+<script>
+document.addEventListener('mousemove',(e)=>{
+    const eyesContainer=document.querySelector('.eyes');
+    const eyes=document.querySelectorAll('.eyes > div');
+    if(!eyesContainer||eyes.length!==2)return;
+    const containerRect=eyesContainer.getBoundingClientRect();
+    const containerCenterX=containerRect.left+containerRect.width/2;
+    const containerCenterY=containerRect.top+containerRect.height/2;
+
+    // Calculate distance from mouse to container center
+    const deltaX = e.clientX - containerCenterX;
+    const deltaY = e.clientY - containerCenterY;
+    const mouseDistance = Math.sqrt(deltaX*deltaX + deltaY*deltaY);
+
+    // Calculate angle for translation
+    const angle=Math.atan2(deltaY, deltaX);
+
+    // Calculate translation distance (pupil movement within the eye)
+    const eyeBallElement = eyes[0].querySelector('i');
+    if (!eyeBallElement) return; // Add check in case querySelector fails
+    const maxTranslateDistance = (eyes[0].offsetWidth / 2) - (eyeBallElement.offsetWidth / 2);
+    const translateDistance=Math.min(maxTranslateDistance, mouseDistance); // Pupil stops at the edge
+    const moveX=Math.cos(angle)*translateDistance;
+    const moveY=Math.sin(angle)*translateDistance;
+
+    // Calculate scale factor based on distance
+    const maxInteractionDistance = 200; // Max distance for scaling effect
+    const minScale = 0.8;
+    const maxScale = 1.2;
+    const clampedDistance = Math.min(mouseDistance, maxInteractionDistance);
+    // Scale is maxScale when distance is 0, minScale when distance is maxInteractionDistance
+    const scaleFactor = maxScale - (clampedDistance / maxInteractionDistance) * (maxScale - minScale);
+
+    // Apply transformations
+    eyes.forEach((eye)=>{
+        const eyeBall=eye.querySelector('i');
+        if (!eyeBall) return; // Add check
+        // Add transition for smoother scaling
+        eyeBall.style.transition = 'transform 0.1s ease-out'; // Simplified transition
+        eyeBall.style.transform=`translate(${moveX}px, ${moveY}px) scale(${scaleFactor})` // Added scale
+    })
+});
+
+// Add mouseleave event to reset scale when mouse leaves the body/window
+document.body.addEventListener('mouseleave', () => {
+    const eyeBalls=document.querySelectorAll('.eyes > div i');
+    eyeBalls.forEach(eyeBall => {
+        eyeBall.style.transition = 'transform 0.3s ease-out';
+        // Extract current translate, apply scale 1
+        const currentTransform = getComputedStyle(eyeBall).transform;
+        if (currentTransform && currentTransform !== 'none') {
+            // Use regex to extract translate values, as DOMMatrix might not be available everywhere or behave consistently
+            const translateMatch = currentTransform.match(/matrix\([^,]+,[^,]+,[^,]+,[^,]+,\s*([^,]+),\s*([^)]+)\)/);
+            if (translateMatch && translateMatch.length === 3) {
+                 const currentX = parseFloat(translateMatch[1]);
+                 const currentY = parseFloat(translateMatch[2]);
+                 eyeBall.style.transform = `translate(${currentX}px, ${currentY}px) scale(1)`;
+            } else {
+                 // Fallback if regex fails or matrix is different
+                 // Attempt to parse translate() directly if matrix fails
+                 const translateDirectMatch = currentTransform.match(/translate\(([^,]+)px,\s*([^)]+)px\)/);
+                 if (translateDirectMatch && translateDirectMatch.length === 3) {
+                    const currentX = parseFloat(translateDirectMatch[1]);
+                    const currentY = parseFloat(translateDirectMatch[2]);
+                    eyeBall.style.transform = `translate(${currentX}px, ${currentY}px) scale(1)`;
+                 } else {
+                    eyeBall.style.transform = `translate(0px, 0px) scale(1)`; // Final fallback
+                 }
+            }
+        } else {
+             eyeBall.style.transform = `translate(0px, 0px) scale(1)`; // Default if no transform
+        }
+    });
+});
+</script>
+</body>
+</html>
