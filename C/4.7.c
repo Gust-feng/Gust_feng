@@ -10,9 +10,9 @@ int main(void)
      while (scanf("%d", &sq_feet) == 1)
      {
           cans = sq_feet / COVERAGE;
-          cans += ((sq_feet % COVERAGE == 0)) ? 0 : 1;
+          cans += ((sq_feet % COVERAGE == 0)) ? 0 : 1;//cans+，但是+的数根据余数决定
           printf("You need %d %s of paint.\n", cans,
-                   cans == 1 ? "can" : "cans");
+                   cans == 1 ? "can" : "cans");//判断单复数
           printf("Enter next value (q to quit):\n");
      }
 
