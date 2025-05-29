@@ -12,7 +12,7 @@
 [一些记录](一些记录)
 
 ## 定制wallpaper（html）
-一些还不错且适用wallpaper的[html壁纸](其他/HTML/wallpaper专区/备注.md)
+一些还不错且适用wallpaper的[html壁纸](其他\HTML\wallpaper专区\使用说明.md)
 
 如果希望自己制作一个壁纸，不妨使用vscode，Trae或cursor的AI编写。
 
