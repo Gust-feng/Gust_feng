@@ -1,3 +1,5 @@
 .vscode/tasks.json
 
 py/其他
+py/venv
+py/爬虫/

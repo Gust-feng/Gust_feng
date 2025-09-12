@@ -3,10 +3,10 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By  
 import time
 
-drive = webdriver.Chrome(service=Service(r'..\其他\chromedriver-win64\chromedriver-win64\chromedriver.exe'))
+drive = webdriver.Chrome(service=Service(r'其他\chromedriver-win64\chromedriver-win64\chromedriver.exe'))
 
 drive.maximize_window()
-drive.get("http://192.168.31.163:8080/")
+drive.get("http://222.243.161.213:81/hnrjzyxysjd/#/login")
 html=drive.page_source
 time.sleep(4)
 with open('../其他/文件/Gust-feng.txt','w',encoding='utf-8') as f:
@@ -38,4 +38,3 @@ submit_btn.click()
 # form.submit()
 
 time.sleep(3)  # 等待提交完成
-drive.quit()  # 关闭浏览器

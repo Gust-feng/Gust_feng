@@ -1,7 +1,7 @@
 import requests
 import re
 
-html=requests.get('https://gust-feng.github.io/my-hone/')
+html=requests.get('https://gust-feng.github.io/my-home/')
 with open('文本.txt','w',encoding='utf-8') as f:
     f.write(html.text)
 with open('文本.txt',encoding='utf-8') as f:
