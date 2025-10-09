@@ -2,4 +2,5 @@
 
 py/其他
 py/venv
-py/爬虫/
+py/爬虫/.env
+py/练习/库/request/burp_ca.pem
