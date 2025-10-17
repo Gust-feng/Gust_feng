@@ -1,0 +1,19 @@
+# Web自动化测试
+selenium>=4.15.0
+
+# 环境变量管理
+python-dotenv>=1.0.0
+
+# 图像识别和验证码处理
+ddddocr>=1.4.0
+
+# HTTP请求
+requests>=2.31.0
+
+# 数据处理
+openpyxl>=3.1.0  # Excel文件处理
+pandas>=2.1.0    # 数据分析
+
+# 其他常用库
+lxml>=4.9.0      # XML/HTML解析
+beautifulsoup4>=4.12.0  # HTML解析
