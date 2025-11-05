@@ -1,7 +1,9 @@
 .vscode/tasks.json
 
-py/其他
-py/venv
-py/爬虫/.env
-py/练习/库/request/burp_ca.pem
-py/爬虫/sso/临时文件/
+# Python 相关（已移至支线文件夹）
+支线/py/其他
+支线/py/venv
+支线/py/爬虫/.env
+支线/py/练习/库/request/burp_ca.pem
+支线/py/爬虫/sso/临时文件/
+
