@@ -1,0 +1,14 @@
+{
+	"nodes":[
+		{"id":"905c0005976d7ccf","x":-180,"y":-80,"width":250,"height":60,"type":"text","text":" 网络层 "},
+		{"id":"66e1c136c5401634","x":-180,"y":80,"width":250,"height":60,"type":"text","text":"数据链路层"},
+		{"id":"c32c9c4d095e22e1","x":-180,"y":240,"width":250,"height":50,"type":"text","text":"物理层"},
+		{"id":"6781fda1bcb75de0","x":-180,"y":-260,"width":250,"height":60,"type":"text","text":"传输层"},
+		{"id":"081adfb09de361ac","x":-180,"y":-600,"width":250,"height":60,"type":"text","text":"应用层"},
+		{"id":"e0916cab0721cac8","x":-180,"y":-480,"width":250,"height":60,"type":"text","text":"表示层"},
+		{"id":"c535aab5ebc71b46","x":-180,"y":-380,"width":250,"height":60,"type":"text","text":"会话层"}
+	],
+	"edges":[
+		{"id":"a00ed024940067e2","fromNode":"081adfb09de361ac","fromSide":"bottom","toNode":"c32c9c4d095e22e1","toSide":"top","fromEnd":"arrow"}
+	]
+}
