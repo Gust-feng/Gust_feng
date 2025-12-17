@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BT-7274 语音文件</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .audio-item {
+            margin-bottom: 25px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        .audio-title {
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        audio {
+            width: 100%;
+            margin-top: 10px;
+        }
+        .file-info {
+            color: #6c757d;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>对话</h1>
+        
+        <div class="audio-item">
+            <div class="audio-title">库伯</div>
+            <audio id="player-audio" controls>
+                <source src="diag_sp_mortarRun_SE101_23_01_mcor_player.wav" type="audio/wav">
+                您的浏览器不支持音频播放。
+            </audio>
+        </div>
+
+        <div class="audio-item">
+            <div class="audio-title">BT-7274</div>
+            <audio id="bt-audio" controls>
+                <source src="diag_sp_mortarRun_SE101_24_01_mcor_bt.wav" type="audio/wav">
+                您的浏览器不支持音频播放。
+            </audio>
+        </div>
+    </div>
+
+    <script>
+        const playerAudio = document.getElementById('player-audio');
+        const btAudio = document.getElementById('bt-audio');
+        
+        playerAudio.addEventListener('ended', function() {
+            setTimeout(() => btAudio.play(), 500);
+        });
+    </script>
+</body>
+</html>
