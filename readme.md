@@ -1,4 +1,4 @@
-# 从记事本开始
+    # 从记事本开始
 
 > 起步于微末之处，不惧其浅陋；  
 > 迭代于寸进之中，自有其峥嵘。
@@ -15,11 +15,11 @@
 
 ## 模型微调
 
-首次接触《[Titanfall](https://store.steampowered.com/app/1237970/Titanfall_2/)》时，[BT-7274的回复](支线\其他\模型微调\etc\BT-7274\index.html)让我对AI拟人化有了具象化的认识，我在思考，是否能将AI运用到这上面来，尝试打造一个现实版的BT-7274?
+首次接触《[Titanfall](https://store.steampowered.com/app/1237970/Titanfall_2/)》时，[BT-7274的回复](支线/其他/模型微调/etc/BT-7274/index.html)让我对AI拟人化有了具象化的认识，我在思考，是否能将AI运用到这上面来，尝试打造一个现实版的BT-7274?
 
 实际上，进行模型微调需要及其丰富且高质量风格对话的数据集作为支撑，通常认为高质量的数据集的训练效果远比混乱的数据集要好的多，但游戏内的数据的太多单一且符合要求的语料太少，想凭此训练出BT-7274太难，因此如何获得丰富的数据集成为一大难点。
 
-> [模型微调](支线\其他\模型微调\模型微调.md)
+> [模型微调](支线/其他/模型微调/模型微调.md)
 
 ## 桌面壁纸
 
@@ -29,6 +29,6 @@
 
 基于以上理念，并结合 wallpaper 所提供的稳定承载形式，使应用不再成为创作的掣肘，让创意重新回到画面本身的结构与关系之上。
 
-> [wallpaper壁纸](支线\其他\HTML\wallpaper专区\使用说明.md)
-> [优雅桌面](https://github.com/Gust-feng/Elegant-desktop)
+> [wallpaper壁纸](支线/其他/HTML/wallpaper专区/使用说明.md)    
+> [优雅桌面](https://github.com/Gust-feng/Elegant-desktop)  
 > [Gust-feng](https://gust-feng.github.io/my-home/)
